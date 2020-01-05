@@ -19,7 +19,7 @@
     <!-- <script src="app.js"></script> -->
     <script type="module">
         import { Sprite } from './image.js';
-        // import 'image.js';
+        import { Ball } from './ball.js';
 
         window.onload = async function () {
             var canvas = document.getElementById('game');
@@ -33,24 +33,19 @@
 
             console.debug('Loading images...');
 
-            var ball = new Sprite('/img/ball.png');
+            var ballImage = new Sprite('/img/ball.png');
             var paddle = new Sprite('/img/paddle.png');
-
+            
             // Wait to load all images
             await Promise.all([
-                ball.load(),
+                ballImage.load(),
                 paddle.load()
             ]).then((a) => {
                 console.log(a);
             });
 
-
-            let ball_vx = canvas.width / 50;
-            let ball_vy = canvas.height / 25;
-
-            let ball_posx = 1;
-            let ball_posy = 1;
-
+            var ball = new Ball(ballImage);
+            
             // window.requestAnimationFrame(draw);
 
             let board_x = canvas.width;
@@ -63,26 +58,11 @@
                 // ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
                 // ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
 
-                if (ball_posx + ball_vx >= board_x) {
-                    ball_vx *= -1;
-                }
-                if (ball_posx + ball_vx <= 0) {
-                    ball_vx *= -1;
-                }
+                ball.loop();
 
-                ball_posx += ball_vx;
+                ball.draw(ctx);
 
-                if (ball_posy + ball_vy >= board_y) {
-                    ball_vy *= -1;
-                }
-                if (ball_posy + ball_vy <= 0) {
-                    ball_vy *= -1;
-                }
-
-                ball_posy += ball_vy;
-
-                ball.draw(ctx, ball_posx, ball_posy);
-                paddle.draw(ctx, ball_posx - 104 / 2, 800 - 24)
+                paddle.draw(ctx, 104 / 2, 800 - 24)
                 // ctx.drawImage(ball, ball_posx, ball_posy);
                 // ctx.drawImage(paddle, );
 
