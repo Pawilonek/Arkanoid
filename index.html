@@ -16,7 +16,11 @@
             border: 1px #666666 solid;
         }
     </style>
-    <script>
+    <!-- <script src="app.js"></script> -->
+    <script type="module">
+        // import {Img} from './image.js';
+        // import 'image.js';
+
         function shadowText(ctx) {
             ctx.shadowOffsetX = 2;
             ctx.shadowOffsetY = 2;
@@ -57,16 +61,16 @@
             }
             ball.src = 'img/ball.png';
 
-            ball_vx = canvas.width / 200;
-            ball_vy = canvas.height / 100;
+            let ball_vx = canvas.width / 200;
+            let ball_vy = canvas.height / 100;
 
-            ball_posx = 1;
-            ball_posy = 1;
+            let ball_posx = 1;
+            let ball_posy = 1;
 
             // window.requestAnimationFrame(draw);
 
-            board_x = canvas.width;
-            board_y = canvas.height;
+            let board_x = canvas.width;
+            let board_y = canvas.height;
 
             setInterval(function () {
                 
