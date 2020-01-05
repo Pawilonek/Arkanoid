@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: #333333;
+    text-align: center;
+}
+
+canvas#game {
+    background: rgba(70, 90, 140, 1);
+    border: 1px #666666 solid;
+    /* cursor: none; */
+}
