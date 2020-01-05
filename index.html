@@ -18,21 +18,10 @@
     </style>
     <!-- <script src="app.js"></script> -->
     <script type="module">
-        import {Img} from './image.js';
+        import { Sprite } from './image.js';
         // import 'image.js';
 
-        function shadowText(ctx) {
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-            ctx.shadowBlur = 2;
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-
-            ctx.font = '20px Times New Roman';
-            ctx.fillStyle = 'Black';
-            ctx.fillText('Sample String', 5, 300);
-        }
-
-        window.onload = function () {
+        window.onload = async function () {
             var canvas = document.getElementById('game');
             if (!canvas.getContext) {
                 alert('Canvas unsupported, bye!');
@@ -42,27 +31,22 @@
 
             var ctx = canvas.getContext('2d');
 
-            // shadowText(ctx);
+            console.debug('Loading images...');
 
-            let paddle = new Image();
-            paddle.onload = function () {
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 6;
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = 'rgba(30, 30, 30, 0.5)';
+            var ball = new Sprite('/img/ball.png');
+            var paddle = new Sprite('/img/paddle.png');
 
-                ctx.drawImage(paddle, 300, 700);
-            }
-            paddle.src = 'img/paddle.png';
+            // Wait to load all images
+            await Promise.all([
+                ball.load(),
+                paddle.load()
+            ]).then((a) => {
+                console.log(a);
+            });
 
-            let ball = new Image();
-            ball.onload = function () {
-                // ctx.drawImage(ball, 50, 50);
-            }
-            ball.src = 'img/ball.png';
 
-            let ball_vx = canvas.width / 200;
-            let ball_vy = canvas.height / 100;
+            let ball_vx = canvas.width / 50;
+            let ball_vy = canvas.height / 25;
 
             let ball_posx = 1;
             let ball_posy = 1;
@@ -73,34 +57,36 @@
             let board_y = canvas.height;
 
             setInterval(function () {
-                
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // clear canvas
                 // ctx.fillStyle = 'rgba(70, 90, 140, 1)';
                 // ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
                 // ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
 
-                if (ball_posx+ball_vx >= board_x) {
+                if (ball_posx + ball_vx >= board_x) {
                     ball_vx *= -1;
                 }
-                if (ball_posx+ball_vx <= 0) {
+                if (ball_posx + ball_vx <= 0) {
                     ball_vx *= -1;
                 }
 
                 ball_posx += ball_vx;
 
-                if (ball_posy+ball_vy >= board_y) {
+                if (ball_posy + ball_vy >= board_y) {
                     ball_vy *= -1;
                 }
-                if (ball_posy+ball_vy <= 0) {
+                if (ball_posy + ball_vy <= 0) {
                     ball_vy *= -1;
                 }
 
                 ball_posy += ball_vy;
-                
-                ctx.drawImage(ball, ball_posx, ball_posy);
-                ctx.drawImage(paddle, ball_posx - paddle.width / 2, 800 - paddle.height);
 
-            }, 1000 / 120)
+                ball.draw(ctx, ball_posx, ball_posy);
+                paddle.draw(ctx, ball_posx - 104 / 2, 800 - 24)
+                // ctx.drawImage(ball, ball_posx, ball_posy);
+                // ctx.drawImage(paddle, );
+
+            }, 1000 / 30)
         };
     </script>
 </head>
