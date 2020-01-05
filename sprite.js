@@ -37,4 +37,11 @@ export class Sprite {
     draw(ctx, x, y) {
         ctx.drawImage(this.image, x, y);
     }
+
+    getSize() {
+        return {
+            width: this.image.width,
+            height: this.image.height
+        }
+    }
 }

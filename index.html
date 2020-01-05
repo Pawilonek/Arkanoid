@@ -6,62 +6,78 @@
     <title>Arkanoid game</title>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
         body {
-            text-align: center;
+            height: 100%;
+        }
+
+        body {
             background: #333333;
+            text-align: center;
         }
 
         canvas#game {
             background: rgba(70, 90, 140, 1);
             border: 1px #666666 solid;
+
+            /* cursor: none; */
         }
     </style>
-    <!-- <script src="app.js"></script> -->
     <script type="module">
-        import { Sprite } from './image.js';
+        import { Sprite } from './sprite.js';
         import { Ball } from './ball.js';
         import { Borders } from './borders.js';
+        import { Paddle } from './paddle.js';
+        import { Mouse } from './mouse.js';
 
         window.onload = async function () {
             var canvas = document.getElementById('game');
             if (!canvas.getContext) {
-                alert('Canvas unsupported, bye!');
+                console.error('Canvas unsupported');
 
                 return;
             }
 
+            // Make canvas to fill whole page
+            // canvas.width = document.body.clientWidth;
+            // canvas.height = document.body.clientHeight;
             var ctx = canvas.getContext('2d');
 
             console.debug('Loading images...');
-
             var ballImage = new Sprite('/img/ball.png');
-            var paddle = new Sprite('/img/paddle.png');
-            
+            var paddleImage = new Sprite('/img/paddle.png');
+
             // Wait to load all images
             await Promise.all([
                 ballImage.load(),
-                paddle.load()
+                paddleImage.load()
             ]).then((a) => {
                 console.log(a);
             });
 
+            var mouse = new Mouse(canvas);
             let ball = new Ball(ballImage);
+            let paddle = new Paddle(paddleImage, mouse);
             let borders = new Borders(0, 0, canvas.width, canvas.height)
-            
+
+            // todo: change interval to requesting frame
             // window.requestAnimationFrame(draw);
-
             setInterval(() => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height); // clear canvas
+                // clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                if (ball.checkColisions(borders)) {
-                    // console.log('out');
-                    // return;
-                }
 
+                ball.checkColisions(borders);
                 ball.loop();
                 ball.draw(ctx);
 
-                paddle.draw(ctx, 104 / 2, 800 - 24);
+                paddle.loop();
+                paddle.draw(ctx);
 
             }, 1000 / 30)
         };

@@ -2,11 +2,11 @@ export class Ball {
     // Image of the ball
     sprite = null;
 
-    angle = 135;
-    speed = 30;
+    angle = 225;
+    speed = 10;
 
-    posX = 250;
-    posY = 250;
+    posX = 310;
+    posY = 490;
 
     constructor(sprite) {
         this.sprite = sprite;
@@ -43,15 +43,11 @@ export class Ball {
         if (this.posX >= object.width) {
             // Bounce on right side
             this.angle = 360 - this.angle;
-
-            return true;
         }
 
         if (this.posX <= object.posX) {
             // Bounce on left side
             this.angle = 360 - this.angle;
-            
-            return true
         }
 
         if (this.posY >= object.height) {
@@ -61,8 +57,6 @@ export class Ball {
             } else {
                 this.angle = 360 - (this.angle - 180);
             }
-
-            return true
         }
 
         if (this.posY <= object.posX) {
@@ -72,18 +66,11 @@ export class Ball {
             } else {
                 this.angle = 180 + 360 - this.angle;
             }
-
-            return true
         }
-
-        return false;
     }
 
     loop() {
         this.updatePosition();
-
-
-
     }
 
     draw(ctx) {
