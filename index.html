@@ -20,6 +20,7 @@
     <script type="module">
         import { Sprite } from './image.js';
         import { Ball } from './ball.js';
+        import { Borders } from './borders.js';
 
         window.onload = async function () {
             var canvas = document.getElementById('game');
@@ -44,27 +45,23 @@
                 console.log(a);
             });
 
-            var ball = new Ball(ballImage);
+            let ball = new Ball(ballImage);
+            let borders = new Borders(0, 0, canvas.width, canvas.height)
             
             // window.requestAnimationFrame(draw);
 
-            let board_x = canvas.width;
-            let board_y = canvas.height;
-
-            setInterval(function () {
-
+            setInterval(() => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // clear canvas
-                // ctx.fillStyle = 'rgba(70, 90, 140, 1)';
-                // ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
-                // ctx.strokeStyle = 'rgba(0, 153, 255, 0.4)';
+
+                if (ball.checkColisions(borders)) {
+                    // console.log('out');
+                    // return;
+                }
 
                 ball.loop();
-
                 ball.draw(ctx);
 
-                paddle.draw(ctx, 104 / 2, 800 - 24)
-                // ctx.drawImage(ball, ball_posx, ball_posy);
-                // ctx.drawImage(paddle, );
+                paddle.draw(ctx, 104 / 2, 800 - 24);
 
             }, 1000 / 30)
         };
