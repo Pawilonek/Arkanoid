@@ -1,8 +1,8 @@
 import { Sprite } from './sprite.js';
 import { Ball } from './elements/ball.js';
-import { Borders } from './borders.js';
 import { Paddle } from './elements/paddle.js';
 import { Mouse } from './controls/mouse.js';
+import { Board } from './board.js';
 
 window.onload = async function () {
     var canvas = document.getElementById('game');
@@ -28,11 +28,18 @@ window.onload = async function () {
     ]).then((a) => {
         console.log(a);
     });
+    
+    let boardBorders = {
+        x: 0,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height
+    };
 
-    var mouse = new Mouse(canvas);
+    let mouse = new Mouse(canvas);
+    let paddle = new Paddle(paddleImage, mouse, boardBorders);
     let ball = new Ball(ballImage);
-    let paddle = new Paddle(paddleImage, mouse);
-    let borders = new Borders(0, 0, canvas.width, canvas.height)
+    let board = new Board(boardBorders, ball, paddle);
 
     // todo: change interval to requesting frame
     // window.requestAnimationFrame(draw);
@@ -40,13 +47,8 @@ window.onload = async function () {
         // clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
-        ball.checkColisions(borders);
-        ball.loop();
-        ball.draw(ctx);
-
-        paddle.loop();
-        paddle.draw(ctx);
+        board.loop();
+        board.draw(ctx);
 
     }, 1000 / 30)
 };

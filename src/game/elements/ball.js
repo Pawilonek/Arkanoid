@@ -45,7 +45,7 @@ export class Ball {
             this.angle = 360 - this.angle;
         }
 
-        if (this.posX <= object.posX) {
+        if (this.posX <= object.x) {
             // Bounce on left side
             this.angle = 360 - this.angle;
         }
@@ -59,7 +59,7 @@ export class Ball {
             }
         }
 
-        if (this.posY <= object.posX) {
+        if (this.posY <= object.y) {
             // Onunce on top
             if (this.angle <= 90) {
                 this.angle = 180 - this.angle;
