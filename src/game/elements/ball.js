@@ -55,7 +55,7 @@ export class Ball {
             if (this.angle <= 180) {
                 this.angle = 180 - this.angle;
             } else {
-                this.angle = 360 - (this.angle - 180);
+                this.angle = 180 + 360 - this.angle;
             }
         }
 
