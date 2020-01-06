@@ -45,6 +45,15 @@ export class Paddle {
         this.posX = mouseX - this.width / 2;
     }
 
+    getPosition() {
+        return {
+            x: this.posX,
+            y: this.posY,
+            width: this.width,
+            height: this.height
+        };
+    }
+
     loop() {
         this.updatePosition();
     }

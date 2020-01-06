@@ -7,6 +7,7 @@ export class Ball {
 
     posX = 310;
     posY = 490;
+    radius = 11;
 
     constructor(sprite) {
         this.sprite = sprite;
@@ -39,41 +40,51 @@ export class Ball {
         }
     }
 
-    checkColisions(object) {
-        if (this.posX >= object.width) {
-            // Bounce on right side
-            this.angle = 360 - this.angle;
-        }
-
-        if (this.posX <= object.x) {
-            // Bounce on left side
-            this.angle = 360 - this.angle;
-        }
-
-        if (this.posY >= object.height) {
-            // Onunce on bvottom
-            if (this.angle <= 180) {
-                this.angle = 180 - this.angle;
-            } else {
-                this.angle = 180 + 360 - this.angle;
-            }
-        }
-
-        if (this.posY <= object.y) {
-            // Onunce on top
-            if (this.angle <= 90) {
-                this.angle = 180 - this.angle;
-            } else {
-                this.angle = 180 + 360 - this.angle;
-            }
-        }
-    }
-
     loop() {
         this.updatePosition();
     }
 
+    bounceRight() {
+        this.angle = 360 - this.angle;
+    }
+
+    bounceLeft() {
+        this.angle = 360 - this.angle;
+    }
+
+    bounceBootm() {
+        if (this.angle <= 180) {
+            this.angle = 180 - this.angle;
+
+            return;
+        }
+
+        this.angle = 180 + 360 - this.angle;
+    }
+
+    bounceTop() {
+        if (this.angle <= 90) {
+            this.angle = 180 - this.angle;
+
+            return;
+        }
+
+        this.angle = 180 + 360 - this.angle;
+    }
+
+    getPosition() {
+        return {
+            x: this.posX,
+            y: this.posY,
+            radius: this.radius
+        };
+    }
+
     draw(ctx) {
-        this.sprite.draw(ctx, this.posX, this.posY);
+        this.sprite.draw(
+            ctx,
+            this.posX - this.radius,
+            this.posY - this.radius
+        );
     }
 }

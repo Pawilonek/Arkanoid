@@ -4,6 +4,11 @@ import { Paddle } from './elements/paddle.js';
 import { Mouse } from './controls/mouse.js';
 import { Board } from './board.js';
 
+window.onresize = function () {
+    // Trmporary fix to update all calculations
+    location.reload();
+};
+
 window.onload = async function () {
     var canvas = document.getElementById('game');
     if (!canvas.getContext) {
@@ -28,7 +33,7 @@ window.onload = async function () {
     ]).then((a) => {
         console.log(a);
     });
-    
+
     let boardBorders = {
         x: 0,
         y: 0,
