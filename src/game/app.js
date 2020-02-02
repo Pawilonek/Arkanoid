@@ -25,16 +25,25 @@ window.onload = async function () {
     var ctx = canvas.getContext('2d');
 
     console.debug('Loading images...');
-    var ballImage = new Sprite('/img/ball.png');
-    var paddleImage = new Sprite('/img/paddle.png');
+    let images = {
+        ball: new Sprite('/img/ball.png'),
+        paddle: new Sprite('/img/paddle.png'),
+        // Tails
+        tailBlue: new Sprite('/img/tail-blue.png'),
+        tailGreen: new Sprite('/img/tail-green.png'),
+        tailGrey: new Sprite('/img/tail-grey.png'),
+        tailPurple: new Sprite('/img/tail-purple.png'),
+        tailRed: new Sprite('/img/tail-red.png'),
+        tailYellow: new Sprite('/img/tail-yellow.png')
+    };
+
+    let imagesLoading = [];
+    for (let key in images) {
+        imagesLoading.push(images[key].load());
+    }
 
     // Wait to load all images
-    await Promise.all([
-        ballImage.load(),
-        paddleImage.load()
-    ]).then((a) => {
-        console.log(a);
-    });
+    await Promise.all(imagesLoading);
 
     let boardBorders = {
         x: 0,
@@ -44,8 +53,8 @@ window.onload = async function () {
     };
 
     let mouse = new Mouse(canvas);
-    let paddle = new Paddle(paddleImage, mouse, boardBorders);
-    let ball = new Ball(ballImage);
+    let paddle = new Paddle(images.paddle, mouse, boardBorders);
+    let ball = new Ball(images.ball);
     let board = new Board(boardBorders, ball, paddle);
 
     // todo: change interval to requesting frame
