@@ -17,18 +17,26 @@ export class Mouse {
         this.canvasX = rect.left;
         this.canvasY = rect.top;
 
+        // Track mouse
         canvas.addEventListener('mousemove', (evt) => {
             this.posX = evt.clientX - this.canvasX;
             this.posY = evt.clientY - this.canvasY;
-        }, false);
+        });
 
-        // todo: may be usefull too: touchstart
+        // Track touch for mobile devices
         canvas.addEventListener("touchmove", (evt) => {
             let touch = evt.touches[0];
 
             this.posX = touch.clientX - this.canvasX;
             this.posY = touch.clientY - this.canvasY;
-        }, false);
+        }, {passive: true});
+        // To track just single taps
+        canvas.addEventListener("touchstart", (evt) => {
+            let touch = evt.touches[0];
+
+            this.posX = touch.clientX - this.canvasX;
+            this.posY = touch.clientY - this.canvasY;
+        }, {passive: true});
     }
 
     getPosition() {
