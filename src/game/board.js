@@ -3,6 +3,7 @@
 export class Board {
     ball;
     paddle;
+    tails = [];
 
     borders = {
         x: 0,
@@ -11,12 +12,12 @@ export class Board {
         height: 0
     }
 
-    constructor(borders, ball, paddle) {
+    constructor(borders, ball, paddle, tails) {
         this.borders = borders;
         this.ball = ball;
         this.paddle = paddle;
+        this.tails = tails;
     }
-
 
     colisionsBorder() {
         let ballPosition = this.ball.getPosition();
@@ -66,6 +67,9 @@ export class Board {
     }
 
     draw(ctx) {
+        for (let key in this.tails) {
+            this.tails[key].draw(ctx);
+        }
 
         this.ball.draw(ctx);
         this.paddle.draw(ctx);

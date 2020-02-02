@@ -16,7 +16,6 @@ canvas#game {
     background: rgba(70, 90, 140, 1);
     border: 1px #666666 solid;
     /* cursor: none; */
-
     padding: 0;
     margin: auto;
     display: block;
