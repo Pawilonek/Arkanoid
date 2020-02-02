@@ -6,6 +6,7 @@ import { Ball } from './elements/ball.js';
 import { Paddle } from './elements/paddle.js';
 import { Mouse } from './controls/mouse.js';
 import { Board } from './board.js';
+import { Fullscreen } from './elements/fullscreen.js';
 
 window.onresize = function () {
     // Trmporary fix to update all calculations after window resize
@@ -13,12 +14,15 @@ window.onresize = function () {
 };
 
 window.onload = async function () {
-    var canvas = document.getElementById('game');
+    let canvas = document.getElementById('game');
     if (!canvas.getContext) {
         console.error('Canvas unsupported');
 
         return;
     }
+
+    // todo: need a button
+    // fullscreen(canvas); 
 
     // Make canvas to fill whole page
     // todo: tmeporary spolution, Make it a little more clean
@@ -35,7 +39,7 @@ window.onload = async function () {
     canvas.style.width = String(canvas.width * ratioH) + 'px';
 
 
-    var ctx = canvas.getContext('2d');
+    let ctx = canvas.getContext('2d');
 
     console.debug('Loading images...');
     let images = {
@@ -48,6 +52,8 @@ window.onload = async function () {
         tailPurple: new Sprite('/img/tail-purple.png'),
         tailRed: new Sprite('/img/tail-red.png'),
         tailYellow: new Sprite('/img/tail-yellow.png'),
+        // Icons
+        fullscreen: new Sprite('/img/fullscreen.png'),
     };
 
     let imagesLoading = [];
@@ -108,14 +114,19 @@ window.onload = async function () {
     let ball = new Ball(images.ball);
     let board = new Board(boardBorders, ball, paddle, tails);
 
+    let fullscreen = new Fullscreen(canvas, mouse, images.fullscreen, 384, 16);
+
     // todo: change interval to requesting frame
     // window.requestAnimationFrame(draw);
     setInterval(() => {
         // clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Game board
         board.loop();
         board.draw(ctx);
 
+        // Icons
+        fullscreen.draw(ctx);
     }, 1000 / 30)
 };

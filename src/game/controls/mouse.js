@@ -12,6 +12,8 @@ export class Mouse {
     posX = 0;
     posY = 0;
 
+    clickCallbacks = [];
+
     constructor(canvas) {
         // Load information about canvas position on site
         let rect = canvas.getBoundingClientRect();
@@ -35,11 +37,32 @@ export class Mouse {
         canvas.addEventListener("touchstart", (evt) => {
             this.updatePosition(evt.touches[0]);
         }, { passive: true });
+
+
+        // Add click events
+        canvas.addEventListener("mouseup", (evt) => {
+            this.updatePosition(evt);
+            this.handleClick();
+        });
+        canvas.addEventListener("ontouchend", (evt) => {
+            this.updatePosition(evt.touches[0]);
+            this.handleClick();
+        });
     }
 
     updatePosition(evt) {
         this.posX = (evt.clientX - this.canvasX) / this.widthRatio;
         this.posY = (evt.clientY - this.canvasY) / this.heightRatio;
+    }
+
+    handleClick() {
+        for (let key in this.clickCallbacks) {
+            this.clickCallbacks[key]();
+        }
+    }
+
+    onClick(fn) {
+        this.clickCallbacks.push(fn);
     }
 
     getPosition() {
