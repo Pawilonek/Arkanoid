@@ -1,3 +1,5 @@
+"use strict";
+
 import { Sprite } from './sprite.js';
 import { Ball } from './elements/ball.js';
 import { Paddle } from './elements/paddle.js';

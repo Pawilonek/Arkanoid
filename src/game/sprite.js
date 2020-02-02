@@ -1,3 +1,5 @@
+"use strict";
+
 export class Sprite {
     imageSrc = null;
     image = null;

@@ -1,3 +1,5 @@
+"use strict";
+
 export class Mouse {
     // Canvas position on screen
     canvasX;

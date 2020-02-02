@@ -1,3 +1,5 @@
+"use strict";
+
 export class Ball {
     // Image of the ball
     sprite = null;

@@ -1,3 +1,5 @@
+"use strict";
+
 export class Board {
     ball;
     paddle;

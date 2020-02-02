@@ -1,3 +1,5 @@
+"use strict";
+
 export class Paddle {
     // Image of the paddle
     sprite = null;
